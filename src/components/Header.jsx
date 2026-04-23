@@ -10,7 +10,7 @@ export default function Header({ invoices = [], onNewClick = () => {} }) {
         className="flex items-center gap-2 bg-[#7C5DFA] hover:bg-[#9277FF] text-white px-6 py-3 rounded-full font-semibold transition-colors"
       >
         <span className="text-xl">+</span>
-        <span>New Invoice </span>
+        <span>New Invoice</span>
       </button>
     </div>
   )
