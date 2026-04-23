@@ -28,7 +28,7 @@ export default function Filter({ selectedStatuses = [], onChange }) {
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-3 text-heading font-bold text-[15px] hover:opacity-80 transition-opacity"
       >
-        <span>Filter by status</span>
+        <span>Filter<span className="hidden md:inline"> by status</span></span>
         <svg
           width="11"
           height="7"

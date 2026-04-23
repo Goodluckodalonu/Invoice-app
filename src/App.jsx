@@ -19,9 +19,9 @@ function AppContent() {
   }
 
   return (
-    <div className="flex min-h-screen bg-page">
+    <div className="flex flex-col lg:flex-row min-h-screen bg-page">
       <Sidebar />
-      <main className="flex-1 ml-[103px] overflow-auto min-h-screen">
+      <main className="flex-1 lg:ml-[103px] pt-[72px] md:pt-[80px] lg:pt-0 overflow-x-hidden min-h-screen">
         {currentView === 'list' ? (
           <InvoiceList onViewInvoice={handleViewInvoice} />
         ) : (

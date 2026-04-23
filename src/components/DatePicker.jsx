@@ -89,7 +89,7 @@ export default function DatePicker({ value, onChange }) {
             <button
                 type="button"
                 onClick={() => setIsOpen(!isOpen)}
-                className="w-full rounded-[4px] px-5 py-3 text-heading font-bold text-[15px] text-left flex items-center justify-between border input-border bg-input-field focus:border-primary transition-colors"
+                className="w-full rounded-[4px] px-5 py-2 text-heading font-bold text-[15px] text-left flex items-center justify-between border input-border bg-input-field focus:border-primary transition-colors"
             >
                 <span>{formatDate(value)}</span>
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">

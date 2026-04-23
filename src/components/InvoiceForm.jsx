@@ -176,7 +176,7 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
   if (!isOpen && !isClosing) return null
 
   const inputClass = (errorKey) =>
-    `w-full rounded-[4px] px-5 py-3 text-heading font-bold text-[15px] outline-none transition-colors border ${errors[errorKey]
+    `w-full rounded-[4px] px-5 py-2 text-heading font-bold text-[15px] outline-none transition-colors border ${errors[errorKey]
       ? 'border-danger'
       : 'input-border focus:border-primary'
     }`
@@ -194,16 +194,27 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
       {/* Slide-out Panel */}
       <div
         ref={panelRef}
-        className={`fixed top-0 left-[103px] bottom-0 w-full max-w-[616px] z-50 overflow-y-auto ${isClosing ? 'slide-out' : 'slide-in'
+        className={`fixed top-[72px] md:top-[80px] lg:top-0 left-0 lg:left-[103px] bottom-0 w-full lg:max-w-[616px] z-50 overflow-y-auto ${isClosing ? 'slide-out' : 'slide-in'
           }`}
         style={{
           backgroundColor: 'var(--color-form-bg)',
           borderRadius: '0 20px 20px 0',
         }}
       >
-        <div className="px-14 pt-14 pb-8">
+        <div className="px-6 md:px-12 pt-6 md:pt-10 pb-8">
+          {/* Go Back (Mobile) */}
+          <button
+            onClick={handleClose}
+            className="md:hidden flex items-center gap-6 mb-6 text-heading font-bold text-[15px] hover:text-label transition-colors"
+          >
+            <svg width="7" height="10" viewBox="0 0 7 10" fill="none">
+              <path d="M6 1L2 5L6 9" stroke="#7C5DFA" strokeWidth="2" />
+            </svg>
+            <span>Go back</span>
+          </button>
+
           {/* Title */}
-          <h1 className="text-heading text-[24px] font-bold tracking-[-0.5px] mb-12">
+          <h1 className="text-heading text-[20px] md:text-[24px] font-bold tracking-[-0.5px] mb-8 md:mb-12">
             {editInvoice ? (
               <>Edit <span className="text-label">#</span>{editInvoice.id}</>
             ) : (
@@ -336,7 +347,7 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
           </div>
 
           {/* Invoice Date & Payment Terms */}
-          <div className="grid grid-cols-2 gap-6 mb-6">
+          <div className="flex flex-col gap-6 mb-8">
             <div>
               <label className={labelClass}>Invoice Date</label>
               <DatePicker
@@ -400,9 +411,9 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
           {/* Item List */}
           <h3 className="text-[#777F98] font-bold text-[18px] mb-4">Item List</h3>
 
-          {/* Item Headers */}
+          {/* Item Headers (Desktop) */}
           {formData.items.length > 0 && (
-            <div className="grid grid-cols-[1fr_60px_100px_80px_20px] gap-4 mb-4">
+            <div className="hidden md:grid grid-cols-[1fr_60px_100px_80px_20px] gap-4 mb-4">
               <span className="text-label text-[13px]">Item Name</span>
               <span className="text-label text-[13px]">Qty.</span>
               <span className="text-label text-[13px]">Price</span>
@@ -412,42 +423,60 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
           )}
 
           {/* Items */}
-          <div className="space-y-4 mb-4">
+          <div className="space-y-12 md:space-y-4 mb-12 md:mb-4">
             {formData.items.map((item, i) => (
-              <div key={i} className="grid grid-cols-[1fr_60px_100px_80px_20px] gap-4 items-center">
-                <input
-                  type="text"
-                  value={item.name}
-                  onChange={(e) => updateItem(i, 'name', e.target.value)}
-                  className={inputClass(`item.${i}.name`)}
-                  style={{ backgroundColor: 'var(--color-input-bg)', borderColor: errors[`item.${i}.name`] ? '#EC5757' : 'var(--color-input-border)' }}
-                />
-                <input
-                  type="number"
-                  value={item.quantity}
-                  onChange={(e) => updateItem(i, 'quantity', parseInt(e.target.value) || 0)}
-                  className={`${inputClass('')} text-center`}
-                  style={{ backgroundColor: 'var(--color-input-bg)', borderColor: 'var(--color-input-border)' }}
-                />
-                <input
-                  type="number"
-                  value={item.price}
-                  onChange={(e) => updateItem(i, 'price', parseFloat(e.target.value) || 0)}
-                  className={inputClass('')}
-                  style={{ backgroundColor: 'var(--color-input-bg)', borderColor: 'var(--color-input-border)' }}
-                />
-                <span className="text-label font-bold text-[15px]">
-                  {(item.quantity * item.price).toFixed(2)}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => removeItem(i)}
-                  className="text-label hover:text-danger transition-colors"
-                >
-                  <svg width="13" height="16" viewBox="0 0 13 16" fill="currentColor">
-                    <path d="M8.44 0l.958.958H12.5v1.916H.5V.958h3.102L4.56 0h3.88zM1.458 14.583c0 1.055.862 1.917 1.917 1.917h6.25c1.055 0 1.917-.862 1.917-1.917V3.833H1.458v10.75z" />
-                  </svg>
-                </button>
+              <div key={i} className="flex flex-col md:grid md:grid-cols-[1fr_60px_100px_80px_20px] gap-4 md:items-center">
+                <div className="flex flex-col gap-2 md:contents">
+                  <span className="md:hidden text-label text-[13px]">Item Name</span>
+                  <input
+                    type="text"
+                    value={item.name}
+                    onChange={(e) => updateItem(i, 'name', e.target.value)}
+                    className={inputClass(`item.${i}.name`)}
+                    style={{ backgroundColor: 'var(--color-input-bg)', borderColor: errors[`item.${i}.name`] ? '#EC5757' : 'var(--color-input-border)' }}
+                  />
+                </div>
+
+                <div className="grid grid-cols-[64px_100px_1fr_20px] md:contents gap-4 items-center">
+                  <div className="flex flex-col gap-2">
+                    <span className="md:hidden text-label text-[13px]">Qty.</span>
+                    <input
+                      type="number"
+                      value={item.quantity}
+                      onChange={(e) => updateItem(i, 'quantity', parseInt(e.target.value) || 0)}
+                      className={`${inputClass('')} text-center px-0`}
+                      style={{ backgroundColor: 'var(--color-input-bg)', borderColor: 'var(--color-input-border)' }}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <span className="md:hidden text-label text-[13px]">Price</span>
+                    <input
+                      type="number"
+                      value={item.price}
+                      onChange={(e) => updateItem(i, 'price', parseFloat(e.target.value) || 0)}
+                      className={inputClass('')}
+                      style={{ backgroundColor: 'var(--color-input-bg)', borderColor: 'var(--color-input-border)' }}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <span className="md:hidden text-label text-[13px]">Total</span>
+                    <span className="text-label font-bold text-[15px] h-[48px] flex items-center">
+                      {(item.quantity * item.price).toFixed(2)}
+                    </span>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <span className="md:hidden text-label text-[13px]">&nbsp;</span>
+                    <button
+                      type="button"
+                      onClick={() => removeItem(i)}
+                      className="text-label hover:text-danger transition-colors h-[48px] flex items-center justify-center"
+                    >
+                      <svg width="13" height="16" viewBox="0 0 13 16" fill="currentColor">
+                        <path d="M8.44 0l.958.958H12.5v1.916H.5V.958h3.102L4.56 0h3.88zM1.458 14.583c0 1.055.862 1.917 1.917 1.917h6.25c1.055 0 1.917-.862 1.917-1.917V3.833H1.458v10.75z" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
@@ -456,7 +485,7 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
           <button
             type="button"
             onClick={addItem}
-            className="w-full py-3 rounded-full font-bold text-[15px] text-label transition-colors hover:opacity-80 mb-8"
+            className="w-full py-2.5 rounded-full font-bold text-[15px] text-label transition-colors hover:opacity-80 mb-6"
             style={{ backgroundColor: 'var(--color-input-border)' }}
           >
             + Add New Item
@@ -473,7 +502,7 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
 
         {/* Bottom Actions */}
         <div
-          className="sticky bottom-0 px-14 py-8 flex items-center gap-2"
+          className="sticky bottom-0 px-6 md:px-12 py-6 flex items-center gap-2"
           style={{
             backgroundColor: 'var(--color-form-bg)',
             boxShadow: '0 -10px 20px rgba(0,0,0,0.1)',
@@ -485,7 +514,7 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
               <button
                 type="button"
                 onClick={handleClose}
-                className="px-6 py-3 rounded-full font-bold text-[15px] text-label transition-colors hover:opacity-80"
+                className="px-6 py-2 rounded-full font-bold text-[13px] text-label transition-colors hover:opacity-80"
                 style={{ backgroundColor: 'var(--color-input-border)' }}
               >
                 Cancel
@@ -493,7 +522,7 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
               <button
                 type="button"
                 onClick={() => handleSubmit('pending')}
-                className="px-6 py-3 rounded-full font-bold text-[15px] text-white bg-primary hover:bg-primary-light transition-colors"
+                className="px-6 py-2 rounded-full font-bold text-[13px] text-white bg-primary hover:bg-primary-light transition-colors"
               >
                 Save Changes
               </button>
@@ -503,7 +532,7 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
               <button
                 type="button"
                 onClick={handleClose}
-                className="px-6 py-4 rounded-full font-bold text-[15px] text-[#7E88C3] bg-white hover:bg-[#DFE3FA] transition-colors"
+                className="px-4 md:px-6 py-2 rounded-full font-bold text-[13px] text-[#7E88C3] bg-white hover:bg-[#DFE3FA] transition-colors"
               >
                 Discard
               </button>
@@ -511,14 +540,14 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
               <button
                 type="button"
                 onClick={() => handleSubmit('draft')}
-                className="px-6 py-4 rounded-full font-bold text-[15px] text-[#888EB0] bg-[#373B53] hover:bg-[#0C0E16] transition-colors"
+                className="px-4 md:px-6 py-2 rounded-full font-bold text-[13px] text-[#888EB0] bg-[#373B53] hover:bg-[#0C0E16] transition-colors"
               >
                 Save as Draft
               </button>
               <button
                 type="button"
                 onClick={() => handleSubmit('pending')}
-                className="px-6 py-4 rounded-full font-bold text-[15px] text-white bg-primary hover:bg-primary-light transition-colors"
+                className="px-4 md:px-6 py-2 rounded-full font-bold text-[13px] text-white bg-primary hover:bg-primary-light transition-colors"
               >
                 Save & Send
               </button>

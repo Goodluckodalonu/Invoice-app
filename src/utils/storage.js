@@ -185,6 +185,7 @@ const SAMPLE_INVOICES = [
   },
 ]
 
+      console.log(SAMPLE_INVOICES)
 export function loadInvoices() {
   if (typeof window === 'undefined') return []
   try {
