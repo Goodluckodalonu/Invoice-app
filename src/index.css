@@ -1,0 +1,150 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Dark Mode (default) ── */
+:root {
+  --color-bg: #141625;
+  --color-card: #1E2139;
+  --color-input: #1E2139;
+  --color-sidebar: #1E2139;
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #DFE3FA;
+  --color-text-muted: #888EB0;
+  --color-border: rgba(223, 227, 250, 0.1);
+  --color-draft-text: #DFE3FA;
+  --color-draft-bg: rgba(223, 227, 250, 0.06);
+  --color-input-border: #252945;
+  --color-input-bg: #1E2139;
+  --color-dropdown-bg: #252945;
+  --color-table-header-bg: #252945;
+  --color-amount-due-bg: #0C0E16;
+  --color-status-bar-bg: #1E2139;
+  --color-card-hover-border: #7C5DFA;
+  --color-form-bg: #141625;
+  --color-scroll-thumb: #252945;
+  color-scheme: dark;
+}
+
+/* ── Light Mode ── */
+html.light {
+  --color-bg: #F8F8FB;
+  --color-card: #FFFFFF;
+  --color-input: #FFFFFF;
+  --color-sidebar: #373B53;
+  --color-text-primary: #0C0E16;
+  --color-text-secondary: #858BB2;
+  --color-text-muted: #7E88C3;
+  --color-border: #DFE3FA;
+  --color-draft-text: #373B53;
+  --color-draft-bg: rgba(55, 59, 83, 0.06);
+  --color-input-border: #DFE3FA;
+  --color-input-bg: #FFFFFF;
+  --color-dropdown-bg: #FFFFFF;
+  --color-table-header-bg: #F9FAFE;
+  --color-amount-due-bg: #373B53;
+  --color-status-bar-bg: #FFFFFF;
+  --color-card-hover-border: #7C5DFA;
+  --color-form-bg: #FFFFFF;
+  --color-scroll-thumb: #DFE3FA;
+  color-scheme: light;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    font-family: 'League Spartan', sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    min-height: 100vh;
+    background-color: var(--color-bg);
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--color-scroll-thumb);
+    border-radius: 4px;
+  }
+}
+
+/* Utility classes using CSS variables */
+@layer utilities {
+  .bg-page {
+    background-color: var(--color-bg);
+  }
+  .bg-card {
+    background-color: var(--color-card);
+  }
+  .bg-input-field {
+    background-color: var(--color-input-bg);
+  }
+  .text-heading {
+    color: var(--color-text-primary);
+  }
+  .text-body {
+    color: var(--color-text-secondary);
+  }
+  .text-label {
+    color: var(--color-text-muted);
+  }
+  .border-theme {
+    border-color: var(--color-border);
+  }
+  .input-border {
+    border-color: var(--color-input-border);
+  }
+}
+
+/* Form slide-out panel animation */
+@keyframes slideIn {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes slideOut {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+.slide-in {
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+.slide-out {
+  animation: slideOut 0.3s ease-in forwards;
+}
+
+/* Fade backdrop */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.fade-out {
+  animation: fadeOut 0.3s ease-in forwards;
+}
