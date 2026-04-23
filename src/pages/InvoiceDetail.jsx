@@ -70,7 +70,19 @@ export default function InvoiceDetail({ invoiceId, onBack }) {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setShowEditForm(true)}
-              className="px-6 py-3 rounded-full font-bold text-[15px] text-secondary bg-[#252945] hover:bg-white hover:text-[#7E88C3] transition-colors"
+              className="px-6 py-3 rounded-full font-bold text-[15px] transition-colors"
+              style={{
+                backgroundColor: 'var(--color-table-header-bg)',
+                color: 'var(--color-text-secondary)'
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.backgroundColor = 'white';
+                e.currentTarget.style.color = '#7E88C3';
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.backgroundColor = 'var(--color-table-header-bg)';
+                e.currentTarget.style.color = 'var(--color-text-secondary)';
+              }}
             >
               Edit
             </button>
@@ -193,14 +205,14 @@ export default function InvoiceDetail({ invoiceId, onBack }) {
             <div className="flex items-center gap-2 justify-end">
               <button
                 onClick={() => setShowDeleteConfirm(false)}
-                className="px-6 py-4 rounded-full font-bold text-[15px] text-label transition-colors hover:opacity-80"
+                className="px-6 py-3 rounded-full font-bold text-[15px] text-label transition-colors hover:opacity-80"
                 style={{ backgroundColor: 'var(--color-input-border)' }}
               >
                 Cancel
               </button>
               <button
                 onClick={handleDelete}
-                className="px-6 py-4 rounded-full font-bold text-[15px] text-white bg-danger hover:bg-danger-light transition-colors"
+                className="px-6 py-3 rounded-full font-bold text-[15px] text-white bg-danger hover:bg-danger-light transition-colors"
               >
                 Delete
               </button>

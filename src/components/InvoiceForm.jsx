@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { calculateTotal, calculateDueDate, generateInvoiceId } from '../utils/helpers'
+import DatePicker from './DatePicker'
 
 const PAYMENT_TERMS_OPTIONS = [
   { value: 1, label: 'Net 1 Day' },
@@ -175,7 +176,7 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
   if (!isOpen && !isClosing) return null
 
   const inputClass = (errorKey) =>
-    `w-full rounded-[4px] px-5 py-4 text-heading font-bold text-[15px] outline-none transition-colors border ${errors[errorKey]
+    `w-full rounded-[4px] px-5 py-3 text-heading font-bold text-[15px] outline-none transition-colors border ${errors[errorKey]
       ? 'border-danger'
       : 'input-border focus:border-primary'
     }`
@@ -338,15 +339,10 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
           <div className="grid grid-cols-2 gap-6 mb-6">
             <div>
               <label className={labelClass}>Invoice Date</label>
-              <div className="relative">
-                <input
-                  type="date"
-                  value={formData.createdAt}
-                  onChange={(e) => setFormData(prev => ({ ...prev, createdAt: e.target.value }))}
-                  className={`${inputClass('')} cursor-pointer`}
-                  style={{ backgroundColor: 'var(--color-input-bg)', borderColor: 'var(--color-input-border)' }}
-                />
-              </div>
+              <DatePicker
+                value={formData.createdAt}
+                onChange={(date) => setFormData(prev => ({ ...prev, createdAt: date }))}
+              />
             </div>
             <div ref={termsRef} className="relative">
               <label className={labelClass}>Payment Terms</label>
@@ -460,7 +456,7 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
           <button
             type="button"
             onClick={addItem}
-            className="w-full py-4 rounded-full font-bold text-[15px] text-label transition-colors hover:opacity-80 mb-8"
+            className="w-full py-3 rounded-full font-bold text-[15px] text-label transition-colors hover:opacity-80 mb-8"
             style={{ backgroundColor: 'var(--color-input-border)' }}
           >
             + Add New Item
@@ -489,7 +485,7 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
               <button
                 type="button"
                 onClick={handleClose}
-                className="px-6 py-4 rounded-full font-bold text-[15px] text-label transition-colors hover:opacity-80"
+                className="px-6 py-3 rounded-full font-bold text-[15px] text-label transition-colors hover:opacity-80"
                 style={{ backgroundColor: 'var(--color-input-border)' }}
               >
                 Cancel
@@ -497,7 +493,7 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
               <button
                 type="button"
                 onClick={() => handleSubmit('pending')}
-                className="px-6 py-4 rounded-full font-bold text-[15px] text-white bg-primary hover:bg-primary-light transition-colors"
+                className="px-6 py-3 rounded-full font-bold text-[15px] text-white bg-primary hover:bg-primary-light transition-colors"
               >
                 Save Changes
               </button>
