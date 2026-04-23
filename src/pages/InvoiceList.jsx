@@ -12,7 +12,6 @@ export default function InvoiceList({ onViewInvoice }) {
 
   useEffect(() => {
   const data = loadInvoices()
-  console.log("Loaded invoices:", data)
   setInvoices(data || [])
 }, [])
 
