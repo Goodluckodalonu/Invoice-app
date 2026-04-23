@@ -184,8 +184,6 @@ const SAMPLE_INVOICES = [
     total: 3102.04,
   },
 ]
-
-      console.log(SAMPLE_INVOICES)
 export function loadInvoices() {
   if (typeof window === 'undefined') return []
   try {
