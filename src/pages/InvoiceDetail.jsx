@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import StatusBadge from '../components/StatusBadge'
 import InvoiceForm from '../components/InvoiceForm'
 import { formatCurrency, formatDate, calculateDueDate } from '../utils/helpers'
@@ -8,6 +8,15 @@ export default function InvoiceDetail({ invoiceId, onBack }) {
   const [invoices, setInvoices] = useState(loadInvoices())
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [showEditForm, setShowEditForm] = useState(false)
+  const cancelBtnRef = useRef(null)
+
+  useEffect(() => {
+    if (showDeleteConfirm) {
+      setTimeout(() => {
+        cancelBtnRef.current?.focus()
+      }, 100)
+    }
+  }, [showDeleteConfirm])
 
   const invoice = invoices.find((inv) => inv.id === invoiceId)
 
@@ -34,6 +43,17 @@ export default function InvoiceDetail({ invoiceId, onBack }) {
     saveInvoices(updated)
     setShowEditForm(false)
   }
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        if (showDeleteConfirm) setShowDeleteConfirm(false)
+        if (showEditForm) setShowEditForm(false)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [showDeleteConfirm, showEditForm])
 
   const handleMarkAsPaid = () => {
     const updated = invoices.map((inv) =>
@@ -254,6 +274,7 @@ export default function InvoiceDetail({ invoiceId, onBack }) {
             </p>
             <div className="flex items-center gap-2 justify-end">
               <button
+                ref={cancelBtnRef}
                 onClick={() => setShowDeleteConfirm(false)}
                 className="px-6 py-3 rounded-full font-bold text-[15px] text-label transition-colors hover:opacity-80"
                 style={{ backgroundColor: 'var(--color-input-border)' }}

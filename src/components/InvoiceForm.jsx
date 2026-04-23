@@ -27,6 +27,15 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
   const [isClosing, setIsClosing] = useState(false)
   const panelRef = useRef(null)
   const termsRef = useRef(null)
+  const firstInputRef = useRef(null)
+
+  useEffect(() => {
+    if (isOpen && !isClosing) {
+      setTimeout(() => {
+        firstInputRef.current?.focus()
+      }, 100)
+    }
+  }, [isOpen, isClosing])
 
   useEffect(() => {
     if (isOpen) {
@@ -71,10 +80,19 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
     }, 300)
   }
 
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && isOpen) {
+        handleClose()
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [isOpen])
+
   const validate = () => {
     const e = {}
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-
     if (!formData.senderAddress.street.trim()) e['sender.street'] = true
     if (!formData.senderAddress.city.trim()) e['sender.city'] = true
     if (!formData.senderAddress.postCode.trim()) e['sender.postCode'] = true
@@ -93,6 +111,8 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
     if (formData.items.length === 0) e.items = true
     formData.items.forEach((item, i) => {
       if (!item.name.trim()) e[`item.${i}.name`] = true
+      if (item.quantity <= 0) e[`item.${i}.quantity`] = true
+      if (item.price <= 0) e[`item.${i}.price`] = true
     })
     setErrors(e)
     return Object.keys(e).length === 0
@@ -151,10 +171,17 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
   }
 
   const updateItem = (index, field, value) => {
+    let finalValue = value
+    if (field === 'quantity') {
+      finalValue = Math.max(0, parseInt(value) || 0)
+    } else if (field === 'price') {
+      finalValue = Math.max(0, parseFloat(value) || 0)
+    }
+
     setFormData(prev => ({
       ...prev,
       items: prev.items.map((item, i) =>
-        i === index ? { ...item, [field]: value } : item
+        i === index ? { ...item, [field]: finalValue } : item
       ),
     }))
   }
@@ -226,8 +253,10 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
           <h3 className="text-primary font-bold text-[15px] mb-6">Bill From</h3>
 
           <div className="mb-6">
-            <label className={labelClass}>Street Address</label>
+            <label htmlFor="sender-street" className={labelClass}>Street Address</label>
             <input
+              id="sender-street"
+              ref={firstInputRef}
               type="text"
               value={formData.senderAddress.street}
               onChange={(e) => updateSender('street', e.target.value)}
@@ -238,8 +267,9 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
 
           <div className="grid grid-cols-3 gap-6 mb-12">
             <div>
-              <label className={labelClass}>City</label>
+              <label htmlFor="sender-city" className={labelClass}>City</label>
               <input
+                id="sender-city"
                 type="text"
                 value={formData.senderAddress.city}
                 onChange={(e) => updateSender('city', e.target.value)}
@@ -248,8 +278,9 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
               />
             </div>
             <div>
-              <label className={labelClass}>Post Code</label>
+              <label htmlFor="sender-postCode" className={labelClass}>Post Code</label>
               <input
+                id="sender-postCode"
                 type="text"
                 value={formData.senderAddress.postCode}
                 onChange={(e) => updateSender('postCode', e.target.value)}
@@ -258,8 +289,9 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
               />
             </div>
             <div>
-              <label className={labelClass}>Country</label>
+              <label htmlFor="sender-country" className={labelClass}>Country</label>
               <input
+                id="sender-country"
                 type="text"
                 value={formData.senderAddress.country}
                 onChange={(e) => updateSender('country', e.target.value)}
@@ -274,7 +306,7 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
 
           <div className="mb-6">
             <div className="flex justify-between">
-              <label className={`${labelClass} ${errors.clientName ? 'text-danger' : ''}`}>
+              <label htmlFor="client-name" className={`${labelClass} ${errors.clientName ? 'text-danger' : ''}`}>
                 Client's Name
               </label>
               {errors.clientName && (
@@ -282,6 +314,7 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
               )}
             </div>
             <input
+              id="client-name"
               type="text"
               value={formData.clientName}
               onChange={(e) => setFormData(prev => ({ ...prev, clientName: e.target.value }))}
@@ -291,8 +324,9 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
           </div>
 
           <div className="mb-6">
-            <label className={labelClass}>Client's Email</label>
+            <label htmlFor="client-email" className={labelClass}>Client's Email</label>
             <input
+              id="client-email"
               type="email"
               value={formData.clientEmail}
               onChange={(e) => setFormData(prev => ({ ...prev, clientEmail: e.target.value }))}
@@ -303,8 +337,9 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
           </div>
 
           <div className="mb-6">
-            <label className={labelClass}>Street Address</label>
+            <label htmlFor="client-street" className={labelClass}>Street Address</label>
             <input
+              id="client-street"
               type="text"
               value={formData.clientAddress.street}
               onChange={(e) => updateClient('street', e.target.value)}
@@ -315,8 +350,9 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
 
           <div className="grid grid-cols-3 gap-6 mb-12">
             <div>
-              <label className={labelClass}>City</label>
+              <label htmlFor="client-city" className={labelClass}>City</label>
               <input
+                id="client-city"
                 type="text"
                 value={formData.clientAddress.city}
                 onChange={(e) => updateClient('city', e.target.value)}
@@ -325,8 +361,9 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
               />
             </div>
             <div>
-              <label className={labelClass}>Post Code</label>
+              <label htmlFor="client-postCode" className={labelClass}>Post Code</label>
               <input
+                id="client-postCode"
                 type="text"
                 value={formData.clientAddress.postCode}
                 onChange={(e) => updateClient('postCode', e.target.value)}
@@ -335,8 +372,9 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
               />
             </div>
             <div>
-              <label className={labelClass}>Country</label>
+              <label htmlFor="client-country" className={labelClass}>Country</label>
               <input
+                id="client-country"
                 type="text"
                 value={formData.clientAddress.country}
                 onChange={(e) => updateClient('country', e.target.value)}
@@ -397,8 +435,9 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
 
           {/* Project Description */}
           <div className="mb-8">
-            <label className={labelClass}>Project Description</label>
+            <label htmlFor="description" className={labelClass}>Project Description</label>
             <input
+              id="description"
               type="text"
               value={formData.description}
               onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
@@ -427,8 +466,9 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
             {formData.items.map((item, i) => (
               <div key={i} className="flex flex-col md:grid md:grid-cols-[1fr_60px_100px_80px_20px] gap-4 md:items-center">
                 <div className="flex flex-col gap-2 md:contents">
-                  <span className="md:hidden text-label text-[13px]">Item Name</span>
+                  <label htmlFor={`item-${i}-name`} className="md:hidden text-label text-[13px]">Item Name</label>
                   <input
+                    id={`item-${i}-name`}
                     type="text"
                     value={item.name}
                     onChange={(e) => updateItem(i, 'name', e.target.value)}
@@ -439,23 +479,28 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
 
                 <div className="grid grid-cols-[64px_100px_1fr_20px] md:contents gap-4 items-center">
                   <div className="flex flex-col gap-2">
-                    <span className="md:hidden text-label text-[13px]">Qty.</span>
+                    <label htmlFor={`item-${i}-qty`} className="md:hidden text-label text-[13px]">Qty.</label>
                     <input
+                      id={`item-${i}-qty`}
                       type="number"
+                      min="1"
                       value={item.quantity}
-                      onChange={(e) => updateItem(i, 'quantity', parseInt(e.target.value) || 0)}
-                      className={`${inputClass('')} text-center px-0`}
-                      style={{ backgroundColor: 'var(--color-input-bg)', borderColor: 'var(--color-input-border)' }}
+                      onChange={(e) => updateItem(i, 'quantity', e.target.value)}
+                      className={`${inputClass(`item.${i}.quantity`)} text-center px-0`}
+                      style={{ backgroundColor: 'var(--color-input-bg)', borderColor: errors[`item.${i}.quantity`] ? '#EC5757' : 'var(--color-input-border)' }}
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <span className="md:hidden text-label text-[13px]">Price</span>
+                    <label htmlFor={`item-${i}-price`} className="md:hidden text-label text-[13px]">Price</label>
                     <input
+                      id={`item-${i}-price`}
                       type="number"
+                      min="0.01"
+                      step="0.01"
                       value={item.price}
-                      onChange={(e) => updateItem(i, 'price', parseFloat(e.target.value) || 0)}
-                      className={inputClass('')}
-                      style={{ backgroundColor: 'var(--color-input-bg)', borderColor: 'var(--color-input-border)' }}
+                      onChange={(e) => updateItem(i, 'price', e.target.value)}
+                      className={inputClass(`item.${i}.price`)}
+                      style={{ backgroundColor: 'var(--color-input-bg)', borderColor: errors[`item.${i}.price`] ? '#EC5757' : 'var(--color-input-border)' }}
                     />
                   </div>
                   <div className="flex flex-col gap-2">

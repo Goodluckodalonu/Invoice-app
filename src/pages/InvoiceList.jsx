@@ -11,9 +11,9 @@ export default function InvoiceList({ onViewInvoice }) {
   const [showForm, setShowForm] = useState(false)
 
   useEffect(() => {
-  const data = loadInvoices()
-  setInvoices(data || [])
-}, [])
+    const data = loadInvoices()
+    setInvoices(data || [])
+  }, [])
 
   const saveAllInvoices = (newInvoices) => {
     setInvoices(newInvoices)
@@ -75,15 +75,16 @@ export default function InvoiceList({ onViewInvoice }) {
 
         {/* Invoice List */}
         {filteredInvoices.length > 0 ? (
-          <div className="space-y-4">
+          <ul className="space-y-4">
             {filteredInvoices.map((invoice) => (
-              <InvoiceCard
-                key={invoice.id}
-                invoice={invoice}
-                onClick={() => onViewInvoice?.(invoice.id)}
-              />
+              <li key={invoice.id}>
+                <InvoiceCard
+                  invoice={invoice}
+                  onClick={() => onViewInvoice?.(invoice.id)}
+                />
+              </li>
             ))}
-          </div>
+          </ul>
         ) : (
           <EmptyState />
         )}

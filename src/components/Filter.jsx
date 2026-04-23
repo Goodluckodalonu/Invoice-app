@@ -50,31 +50,35 @@ export default function Filter({ selectedStatuses = [], onChange }) {
               key={status}
               className="flex items-center gap-3 cursor-pointer group"
             >
-              <div
-                className={`w-4 h-4 rounded-[2px] border flex items-center justify-center transition-colors
-                  ${selectedStatuses.includes(status)
-                    ? 'bg-primary border-primary'
-                    : 'border-transparent hover:border-primary'
-                  }`}
-                style={{
-                  backgroundColor: selectedStatuses.includes(status)
-                    ? '#7C5DFA'
-                    : 'var(--color-input-border)',
-                }}
-                onClick={(e) => {
-                  e.preventDefault()
-                  toggleStatus(status)
-                }}
-              >
-                {selectedStatuses.includes(status) && (
-                  <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
-                    <path
-                      d="M1.5 4.5L3.5 6.5L8.5 1.5"
-                      stroke="white"
-                      strokeWidth="2"
-                    />
-                  </svg>
-                )}
+              <div className="relative flex items-center justify-center">
+                <input
+                  type="checkbox"
+                  checked={selectedStatuses.includes(status)}
+                  onChange={() => toggleStatus(status)}
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                />
+                <div
+                  className={`w-4 h-4 rounded-[2px] border flex items-center justify-center transition-colors
+                    ${selectedStatuses.includes(status)
+                      ? 'bg-primary border-primary'
+                      : 'border-transparent hover:border-primary'
+                    }`}
+                  style={{
+                    backgroundColor: selectedStatuses.includes(status)
+                      ? '#7C5DFA'
+                      : 'var(--color-input-border)',
+                  }}
+                >
+                  {selectedStatuses.includes(status) && (
+                    <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                      <path
+                        d="M1.5 4.5L3.5 6.5L8.5 1.5"
+                        stroke="white"
+                        strokeWidth="2"
+                      />
+                    </svg>
+                  )}
+                </div>
               </div>
               <span className="text-heading font-bold text-[13px] capitalize">
                 {status}
