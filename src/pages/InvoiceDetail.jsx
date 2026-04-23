@@ -70,8 +70,7 @@ export default function InvoiceDetail({ invoiceId, onBack }) {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setShowEditForm(true)}
-              className="px-6 py-3 rounded-full font-bold text-[15px] text-label hover:opacity-80 transition-colors"
-              style={{ backgroundColor: 'var(--color-input-border)' }}
+              className="px-6 py-3 rounded-full font-bold text-[15px] text-secondary bg-[#252945] hover:bg-white hover:text-[#7E88C3] transition-colors"
             >
               Edit
             </button>
@@ -97,12 +96,12 @@ export default function InvoiceDetail({ invoiceId, onBack }) {
           {/* Top: ID + Description | Sender Address */}
           <div className="flex justify-between mb-[21px]">
             <div>
-              <h2 className="text-heading text-[16px] font-bold mb-2">
-                <span className="text-label">#</span>{invoice.id}
+              <h2 className="text-heading text-[16px] font-bold mb-2 uppercase">
+                <span className="text-secondary">#</span>{invoice.id}
               </h2>
-              <p className="text-label text-[13px]">{invoice.description}</p>
+              <p className="text-heading text-[13px]">{invoice.description}</p>
             </div>
-            <div className="text-right text-label text-[13px] leading-[18px]">
+            <div className="text-right text-heading text-[13px] leading-[18px]">
               <p>{invoice.senderAddress?.street}</p>
               <p>{invoice.senderAddress?.city}</p>
               <p>{invoice.senderAddress?.postCode}</p>
@@ -128,7 +127,7 @@ export default function InvoiceDetail({ invoiceId, onBack }) {
             <div>
               <p className="text-label text-[13px] mb-3">Bill To</p>
               <p className="text-heading font-bold text-[15px] mb-2">{invoice.clientName}</p>
-              <div className="text-label text-[13px] leading-[18px]">
+              <div className="text-heading text-[13px] leading-[18px]">
                 <p>{invoice.clientAddress?.street}</p>
                 <p>{invoice.clientAddress?.city}</p>
                 <p>{invoice.clientAddress?.postCode}</p>
@@ -148,10 +147,10 @@ export default function InvoiceDetail({ invoiceId, onBack }) {
             <div style={{ backgroundColor: 'var(--color-table-header-bg)' }} className="p-8">
               {/* Table Header */}
               <div className="grid grid-cols-[1fr_auto_auto_auto] gap-4 mb-8">
-                <span className="text-label text-[13px]">Item Name</span>
-                <span className="text-label text-[13px] text-center w-[60px]">QTY.</span>
-                <span className="text-label text-[13px] text-right w-[100px]">Price</span>
-                <span className="text-label text-[13px] text-right w-[100px]">Total</span>
+                <span className="text-heading text-[13px]">Item Name</span>
+                <span className="text-heading text-[13px] text-center w-[60px]">QTY.</span>
+                <span className="text-heading text-[13px] text-right w-[100px]">Price</span>
+                <span className="text-heading text-[13px] text-right w-[100px]">Total</span>
               </div>
 
               {/* Table Rows */}

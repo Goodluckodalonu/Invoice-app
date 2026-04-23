@@ -44,7 +44,7 @@ export default function InvoiceList({ onViewInvoice }) {
             <h1 className="text-heading text-[36px] font-bold tracking-[-1.12px] leading-none mb-2">
               Invoices
             </h1>
-            <p className="text-label text-[13px]">
+            <p className="text-secondary text-[13px]">
               {totalCount === 0
                 ? 'No invoices'
                 : `There are ${totalCount} total invoices`}

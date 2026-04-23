@@ -10,7 +10,8 @@
   --color-sidebar: #1E2139;
   --color-text-primary: #FFFFFF;
   --color-text-secondary: #DFE3FA;
-  --color-text-muted: #888EB0;
+  --color-text-muted: #DFE3FA;
+  /* Brightened from #888EB0 */
   --color-border: rgba(223, 227, 250, 0.1);
   --color-draft-text: #DFE3FA;
   --color-draft-bg: rgba(223, 227, 250, 0.06);
@@ -74,12 +75,25 @@ html.light {
   ::-webkit-scrollbar {
     width: 8px;
   }
+
   ::-webkit-scrollbar-track {
     background: transparent;
   }
+
   ::-webkit-scrollbar-thumb {
     background-color: var(--color-scroll-thumb);
     border-radius: 4px;
+  }
+
+  /* Remove number input spinners */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type=number] {
+    -moz-appearance: textfield;
   }
 }
 
@@ -88,24 +102,31 @@ html.light {
   .bg-page {
     background-color: var(--color-bg);
   }
+
   .bg-card {
     background-color: var(--color-card);
   }
+
   .bg-input-field {
     background-color: var(--color-input-bg);
   }
+
   .text-heading {
     color: var(--color-text-primary);
   }
+
   .text-body {
     color: var(--color-text-secondary);
   }
+
   .text-label {
     color: var(--color-text-muted);
   }
+
   .border-theme {
     border-color: var(--color-border);
   }
+
   .input-border {
     border-color: var(--color-input-border);
   }
@@ -113,13 +134,23 @@ html.light {
 
 /* Form slide-out panel animation */
 @keyframes slideIn {
-  from { transform: translateX(-100%); }
-  to { transform: translateX(0); }
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
 }
 
 @keyframes slideOut {
-  from { transform: translateX(0); }
-  to { transform: translateX(-100%); }
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
 }
 
 .slide-in {
@@ -132,13 +163,23 @@ html.light {
 
 /* Fade backdrop */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes fadeOut {
-  from { opacity: 1; }
-  to { opacity: 0; }
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
 }
 
 .fade-in {

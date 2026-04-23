@@ -15,13 +15,13 @@ export default function InvoiceCard({ invoice, onClick }) {
 
       {/* Due Date */}
       <div className="w-[20%] text-left">
-        <span className="text-label text-[13px]">Due </span>
-        <span className="text-label text-[13px]">{formatDate(invoice.paymentDue)}</span>
+        <span className="text-secondary text-[13px]">Due </span>
+        <span className="text-heading text-[13px]">{formatDate(invoice.paymentDue)}</span>
       </div>
 
       {/* Client Name */}
       <div className="w-[20%] text-left">
-        <span className="text-label text-[13px]">{invoice.clientName}</span>
+        <span className="text-heading text-[13px]">{invoice.clientName}</span>
       </div>
 
       {/* Amount */}

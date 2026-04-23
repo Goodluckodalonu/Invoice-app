@@ -72,12 +72,18 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
 
   const validate = () => {
     const e = {}
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
     if (!formData.senderAddress.street.trim()) e['sender.street'] = true
     if (!formData.senderAddress.city.trim()) e['sender.city'] = true
     if (!formData.senderAddress.postCode.trim()) e['sender.postCode'] = true
     if (!formData.senderAddress.country.trim()) e['sender.country'] = true
     if (!formData.clientName.trim()) e.clientName = "can't be empty"
-    if (!formData.clientEmail.trim()) e.clientEmail = "can't be empty"
+    if (!formData.clientEmail.trim()) {
+      e.clientEmail = "can't be empty"
+    } else if (!emailRegex.test(formData.clientEmail)) {
+      e.clientEmail = "invalid email"
+    }
     if (!formData.clientAddress.street.trim()) e['client.street'] = true
     if (!formData.clientAddress.city.trim()) e['client.city'] = true
     if (!formData.clientAddress.postCode.trim()) e['client.postCode'] = true
@@ -501,8 +507,7 @@ export default function InvoiceForm({ isOpen, onClose, onSubmit, editInvoice = n
               <button
                 type="button"
                 onClick={handleClose}
-                className="px-6 py-4 rounded-full font-bold text-[15px] text-label transition-colors hover:opacity-80"
-                style={{ backgroundColor: 'var(--color-input-border)' }}
+                className="px-6 py-4 rounded-full font-bold text-[15px] text-[#7E88C3] bg-white hover:bg-[#DFE3FA] transition-colors"
               >
                 Discard
               </button>
