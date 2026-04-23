@@ -18,7 +18,7 @@ export default function EmptyState() {
       </h2>
       <p className="text-label text-[13px] leading-[18px] text-center max-w-[220px]">
         Create an invoice by clicking the{' '}
-        <span className="font-bold"> New Invoice</span> button and get started
+        <span className="font-bold">New Invoice</span> button and get started
       </p>
     </div>
   )
